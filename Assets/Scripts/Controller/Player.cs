@@ -21,26 +21,28 @@ public class Player : MonoBehaviour
     }
     public CharacterStat stat;
     public CharacterCombat combat;
+    public PlayerController controller;
 
     private void Awake()
     {
         Instance = this;
         stat = GetComponent<CharacterStat>();
         combat = GetComponent<CharacterCombat>();
+        controller = GetComponent<PlayerController>();
     }
 
-    private void OnEnable()
-    {
-        combat.OnHPZero += Die;
-    }
+    //private void OnEnable()
+    //{
+    //    combat.OnHPZero += Die;
+    //}
 
-    private void OnDisable()
-    {
-        combat.OnHPZero -= Die;
-    }
+    //private void OnDisable()
+    //{
+    //    combat.OnHPZero -= Die;
+    //}
 
-    void Die()
-    {
-        Debug.Log("Player is dead");
-    }
+    //void Die()
+    //{
+    //    Debug.Log("Player is dead");
+    //}
 }

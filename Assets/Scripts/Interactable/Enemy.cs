@@ -17,7 +17,7 @@ public class Enemy : Interactable
         combat.OnHPZero -= Die;
     }
 
-    public override void Interact()
+    public override void interact()
     {
         Player.Instance.combat.Attack(combat);
     }

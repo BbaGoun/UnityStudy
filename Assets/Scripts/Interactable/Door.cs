@@ -7,32 +7,28 @@ public class Door : Interactable
     bool isClosed = true;
     Transform a;
     Vector3 closedPosition = new Vector3(5.3f, 0, 0);
-    Quaternion closedRotation = new Quaternion(0f, 180f, 0f, 0f);
     Vector3 openedPosition = new Vector3(4.2f, 0f, 1f);
-    Quaternion openedRotation = new Quaternion(0f, 90f, 0f, 0f);
 
-    public float delay = 1f;
-
-    public override void Interact()
+    public override void interact()
     {
-        if(!isInteracted)
+        ToggleDoor();
+    }
+
+    void ToggleDoor()
+    {
+        if (isClosed)
         {
-            isInteracted = true;
-            if(isClosed)
-            {
 #if UNITY_EDITOR
-                Debug.Log("Door Open");
+            Debug.Log("Door Open");
 #endif
-                OpenDoor();
-            }
-            else
-            {
+            OpenDoor();
+        }
+        else
+        {
 #if UNITY_EDITOR
-                Debug.Log("Door Close");
+            Debug.Log("Door Close");
 #endif
-                CloseDoor();
-            }
-            StartCoroutine(GiveInteractDelay(delay));
+            CloseDoor();
         }
     }
 

@@ -13,9 +13,9 @@ public class PlayerController : MonoBehaviour
     Animator anim;
     Rigidbody rb;
 
-    Interactable nearInteractable;
+    public Interactable nearInteractable;
     
-    void Start()
+    void Awake()
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
@@ -24,16 +24,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         ControllPlayer();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        nearInteractable = other.gameObject.GetComponent<Interactable>();
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        nearInteractable = null;
     }
 
     void ControllPlayer()

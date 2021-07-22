@@ -11,7 +11,9 @@ public class Item : ScriptableObject
 
     public virtual void Use()
     {
+#if UNITY_EDITOR
         Debug.Log("Using " + _name);
+#endif
     }
 
     public void RemoveFromInventory()
