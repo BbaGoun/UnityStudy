@@ -9,7 +9,14 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 2.25f;
     public float jumpForce = 200;
     public float timeBeforeNextJump = 1.5f;
-    private float canJump = 0f;
+    public float Double_Tap_Time = 0.1f;
+   
+    float canJump = 0f;
+    float lastMoveTime = 0f;
+    bool isRun = false;
+    Vector3 movement = Vector3.zero;
+    Vector3 oldMovement = Vector3.zero;
+
     Animator anim;
     Rigidbody rb;
 
@@ -28,17 +35,21 @@ public class PlayerController : MonoBehaviour
 
     void ControllPlayer()
     {
+        oldMovement = movement;
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        movement = movement.normalized;
+        movement = new Vector3(moveHorizontal, 0.0f, moveVertical).normalized;
 
         if (movement != Vector3.zero)
         {
+            float timeSinceLastMove = Time.time - lastMoveTime;
+            lastMoveTime = Time.time;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15f);
-            if (Input.GetButton("Run"))
+            
+            if (isRun || timeSinceLastMove <= Double_Tap_Time && oldMovement == Vector3.zero)
             {
+                isRun = true;
                 movementSpeed = runSpeed;
                 anim.SetBool("Run", true);
             }
@@ -50,6 +61,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         else {
+            isRun = false;
             movementSpeed = walkSpeed;
             anim.SetBool("Run", false);
             anim.SetBool("Walk", false);

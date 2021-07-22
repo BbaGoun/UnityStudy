@@ -12,7 +12,6 @@ public class PickupItem : Interactable
 
     void SelectItem()
     {
-
         bool isPickuped = Inventory.Instance.Add(item);
         if (isPickuped)
         {

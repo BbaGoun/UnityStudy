@@ -14,6 +14,7 @@ public class InventorySlot : MonoBehaviour
         item = newItem;
         icon.sprite = newItem.icon;
         icon.enabled = true;
+        if(newItem)
         xButton.interactable = true;
     }
 
