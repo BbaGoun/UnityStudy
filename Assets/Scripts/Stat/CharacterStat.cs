@@ -4,18 +4,7 @@ using UnityEngine;
 
 public class CharacterStat : MonoBehaviour
 {
-    int currentHP;
-    public int CurrentHP
-    {
-        get
-        {
-            return currentHP;
-        }
-        set
-        {
-            currentHP = value;
-        }
-    }
+    public int currentHP;
     public int maxHP;
 
     public int power = 10;
@@ -25,18 +14,15 @@ public class CharacterStat : MonoBehaviour
         currentHP = maxHP;
     }
 
-    private void Update()
-    {
-
-    }
-
     public void Heal(int heal)
     {
         currentHP += heal;
 
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
 
+#if UNITY_EDITOR
         Debug.Log("HP Healed : " + currentHP);
+#endif
     }
 
     public bool GetDamage(int damage)
@@ -44,7 +30,9 @@ public class CharacterStat : MonoBehaviour
         damage = Mathf.Clamp(damage, 0, int.MaxValue);
 
         currentHP -= damage;
+#if UNITY_EDITOR
         Debug.LogFormat("{0}'s HP : {1}", transform.name, currentHP);
+#endif
         if (currentHP <= 0)
         {
             return true;

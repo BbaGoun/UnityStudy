@@ -32,7 +32,7 @@ public class HPBar : MonoBehaviour
 
     float NormalizeHP()
     {
-        return Mathf.Clamp01(stat.CurrentHP / (float)stat.maxHP);
+        return Mathf.Clamp01(stat.currentHP / (float)stat.maxHP);
     }
 
 }

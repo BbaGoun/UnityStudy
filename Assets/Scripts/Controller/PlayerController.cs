@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float movementSpeed = 1.25f;
-    public float walkSpeed = 1.25f;
-    public float runSpeed = 2.25f;
-    public float jumpForce = 200;
-    public float timeBeforeNextJump = 1.5f;
-    public float Double_Tap_Time = 0.1f;
+    const float walkSpeed = 1.25f;
+    const float runSpeed = 2.25f;
+    const float jumpForce = 200;
+    const float timeBeforeNextJump = 1.5f;
+    const float Double_Tap_Time = 0.15f;
    
     float canJump = 0f;
     float lastMoveTime = 0f;
@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     Animator anim;
     Rigidbody rb;
+    public Camera mainCamera;
 
     public Interactable nearInteractable;
     
@@ -87,4 +88,15 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    //void LookMouseCursor()
+    //{
+    //    Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+    //    RaycastHit hitResult;
+    //    if (Physics.Raycast(ray, out hitResult))
+    //    {
+    //        Vector3 mouseDir = new Vector3(hitResult.point.x, transform.position.y, hitResult.point.z) - transform.position;
+    //        anim.transform.forward = mouseDir;
+    //    }
+    //}
 }

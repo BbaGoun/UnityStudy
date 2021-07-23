@@ -48,4 +48,9 @@ public class Inventory : MonoBehaviour
         items.Remove(removedItem);
         onItemChanged?.Invoke();
     }
+
+    public bool IsContain(Item item)
+    {
+        return items.Contains(item);
+    }
 }

@@ -10,7 +10,15 @@ public class Option : MonoBehaviour
     public Slider fxSlider;
     public AudioSource bgm;
     public AudioSource fx;
-    
+
+    private void Update()
+    {
+        if(Input.GetButtonDown("Cancel"))
+        {
+            OptionToggle();
+        }
+    }
+
     void Start()
     {
         bgmSlider.onValueChanged.AddListener(delegate { UpdateBgm(); });

@@ -10,6 +10,14 @@ public class InventoryUI : MonoBehaviour
 
     public GameObject inventoryHead;
 
+    private void Update()
+    {
+        if(Input.GetButtonDown("Inventory"))
+        {
+            InventoryToggle();
+        }
+    }
+
     private void OnEnable()
     {
         inventory = Inventory.Instance;
