@@ -7,7 +7,7 @@ public class Interactable : MonoBehaviour
 {
     public bool isInteracted = false;
     public float delay = 1.0f;
-    Outline outline;
+    public Outline outline;
 
     void Awake()
     {
@@ -20,7 +20,7 @@ public class Interactable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag != "Player")
+        if (!other.gameObject.CompareTag("Player"))
             return;
         Player.Instance.controller.nearInteractable = this;
         outline.enabled = true;

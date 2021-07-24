@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354e008d7db02da4a86d037a28362300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpBar: {fileID: 0}
+  hpBar: {fileID: 4084361648724301969}
   target: {fileID: 0}
   stat: {fileID: 0}
   cam: {fileID: 0}

@@ -8,6 +8,16 @@ public class TreasureChest : Interactable
     public Item neededItem;
     public GameObject treasure;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.gameObject.CompareTag("Player"))
+            return;
+        if (!Inventory.Instance.IsContain(neededItem))
+            return;
+        Player.Instance.controller.nearInteractable = this;
+        outline.enabled = true;
+    }
+
     public override void interact()
     {
         OpenChest();

@@ -17,16 +17,18 @@ public class PlayerController : MonoBehaviour
     Vector3 movement = Vector3.zero;
     Vector3 oldMovement = Vector3.zero;
 
-    Animator anim;
     Rigidbody rb;
     public Camera mainCamera;
+    PlayerAnimator playerAnim;
+    CharacterCombat combat;
 
     public Interactable nearInteractable;
     
     void Awake()
     {
-        anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
+        playerAnim = GetComponent<PlayerAnimator>();
+        combat = GetComponent<CharacterCombat>();
     }
 
     void Update()
@@ -41,40 +43,37 @@ public class PlayerController : MonoBehaviour
         float moveVertical = Input.GetAxisRaw("Vertical");
 
         movement = new Vector3(moveHorizontal, 0.0f, moveVertical).normalized;
+        LookMouseCursor();
 
         if (movement != Vector3.zero)
         {
             float timeSinceLastMove = Time.time - lastMoveTime;
             lastMoveTime = Time.time;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15f);
-            
+
             if (isRun || timeSinceLastMove <= Double_Tap_Time && oldMovement == Vector3.zero)
             {
                 isRun = true;
                 movementSpeed = runSpeed;
-                anim.SetBool("Run", true);
+                playerAnim.Run();
             }
             else
             {
                 movementSpeed = walkSpeed;
-                anim.SetBool("Run", false);
-                anim.SetBool("Walk", true);
+                playerAnim.Walk();
             }
+
+            transform.Translate(movement * movementSpeed * Time.deltaTime, Space.World);
         }
         else {
             isRun = false;
-            movementSpeed = walkSpeed;
-            anim.SetBool("Run", false);
-            anim.SetBool("Walk", false);
+            playerAnim.Idle();
         }
-
-        transform.Translate(movement * movementSpeed * Time.deltaTime, Space.World);
 
         if (Input.GetButtonDown("Jump") && Time.time > canJump)
         {
             rb.AddForce(0, jumpForce, 0);
             canJump = Time.time + timeBeforeNextJump;
-            anim.SetTrigger("Jump");
+            playerAnim.Jump();
         }
 
         if(Input.GetButtonDown("Interact"))
@@ -87,16 +86,21 @@ public class PlayerController : MonoBehaviour
                 nearInteractable.Interact();
             }
         }
+
+        if(Input.GetButtonDown("Fire1"))
+        {
+            combat.Attack();
+        }
     }
 
-    //void LookMouseCursor()
-    //{
-    //    Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-    //    RaycastHit hitResult;
-    //    if (Physics.Raycast(ray, out hitResult))
-    //    {
-    //        Vector3 mouseDir = new Vector3(hitResult.point.x, transform.position.y, hitResult.point.z) - transform.position;
-    //        anim.transform.forward = mouseDir;
-    //    }
-    //}
+    void LookMouseCursor()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitResult;
+        if (Physics.Raycast(ray, out hitResult))
+        {
+            Vector3 mouseDir = new Vector3(hitResult.point.x, transform.position.y, hitResult.point.z) - transform.position;
+            transform.forward = mouseDir;
+        }
+    }
 }

@@ -19,7 +19,7 @@ public class Enemy : Interactable
 
     public override void interact()
     {
-        Player.Instance.combat.Attack(combat);
+        //Player.Instance.combat.Attack(combat);
     }
 
     void Die()

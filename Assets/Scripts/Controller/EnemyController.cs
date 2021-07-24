@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
             agent.SetDestination(target.position);
             if (distance < agent.stoppingDistance)
             {
-                combat.Attack(Player.Instance.combat);
+                //combat.Attack(Player.Instance.combat);
             }
         }
         else

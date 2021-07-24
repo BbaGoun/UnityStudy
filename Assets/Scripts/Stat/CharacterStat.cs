@@ -7,7 +7,8 @@ public class CharacterStat : MonoBehaviour
     public int currentHP;
     public int maxHP;
 
-    public int power = 10;
+    public int minPower = 7;
+    public int maxPower = 13;
 
     private void OnEnable()
     {
