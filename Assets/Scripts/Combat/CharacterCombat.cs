@@ -7,14 +7,13 @@ public class CharacterCombat : MonoBehaviour
 {
     // Animator에서 함수 추가.
     public event Action OnAttack;
-    public event Action OnDie;
     // Animator and Controller
+    public event Action OnDie;
     public event Action OnHitted;
 
-    public enum Character { PLAYER, ENEMY, ELSE };
-    public Character character;
-
-    const float attackCooltime = 2f;
+    public float attackCooltime = 2f;
+    public float predelay;
+    public float duration;
     float lastAttackTime;
 
     public CharacterStat myStat;
@@ -22,12 +21,15 @@ public class CharacterCombat : MonoBehaviour
     public Collider hitBox;
     public GameObject Weapon;
 
-    bool equipWeapon = false;
+    public bool equipWeapon = false;
+    bool invincible = false;
+    bool alreadyAttack = false;
 
     public void EquipWeapon()
     {
         equipWeapon = true;
-        Weapon.SetActive(true);
+        if (Weapon != null)
+            Weapon.SetActive(true);
     }
 
     private void Awake()
@@ -42,17 +44,10 @@ public class CharacterCombat : MonoBehaviour
         if (Time.time >= lastAttackTime + attackCooltime)
         {
             OnAttack?.Invoke();
-            StartCoroutine(OnHitBox(0.25f, 0.6f));
+            StartCoroutine(OnHitBox(predelay, duration));
 
             lastAttackTime = Time.time;
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        CharacterCombat enemyCombat = other.gameObject.GetComponent<CharacterCombat>();
-        if (enemyCombat != null)
-            GiveDamage(enemyCombat);
     }
 
     IEnumerator OnHitBox(float predelay, float duration)
@@ -61,6 +56,24 @@ public class CharacterCombat : MonoBehaviour
         hitBox.enabled = true;
         yield return new WaitForSeconds(duration);
         hitBox.enabled = false;
+        alreadyAttack = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == transform.gameObject)
+            return;
+        if (alreadyAttack)
+            return;
+        CharacterCombat enemyCombat = other.GetComponent<CharacterCombat>();
+        if (enemyCombat != null)
+        {
+            if (!enemyCombat.invincible)
+            {
+                GiveDamage(enemyCombat);
+                alreadyAttack = true;
+            }
+        }
     }
 
     void GiveDamage(CharacterCombat enemyCombat)
@@ -81,34 +94,16 @@ public class CharacterCombat : MonoBehaviour
 
     public void Die()
     {
-        switch (character)
-        {
-            case Character.PLAYER:
-                DisablePlayerController();
-                break;
-            case Character.ENEMY:
-                DisableEnemyController();
-                break;
-            case Character.ELSE:
-                break;
-        }
-#if UNITY_EDITOR
-        Debug.Log("Player Die!");
-#endif
         OnDie?.Invoke();
     }
 
-    public void DisablePlayerController()
+    public void OnInvincible()
     {
-        PlayerController playerController = GetComponent<PlayerController>();
-        if (playerController != null)
-            playerController.enabled = false;
+        invincible = true;
     }
 
-    public void DisableEnemyController()
+    public void OffInvincible()
     {
-        EnemyController enemyController = GetComponent<EnemyController>();
-        if (enemyController != null)
-            enemyController.enabled = false;
+        invincible = false;
     }
 }

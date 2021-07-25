@@ -10,7 +10,7 @@ public class TreasureChest : Interactable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.CompareTag("Player"))
+        if (!other.CompareTag("Player"))
             return;
         if (!Inventory.Instance.IsContain(neededItem))
             return;

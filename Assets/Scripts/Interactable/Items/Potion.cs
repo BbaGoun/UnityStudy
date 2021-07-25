@@ -10,6 +10,11 @@ public class Potion : Item
     public override void Use()
     {
         Player.Instance.stat.Heal(heal);
+        if (useSound != null)
+        {
+            AudioManager.Instance.source.clip = useSound;
+            AudioManager.Instance.source.Play();
+        }
         RemoveFromInventory();
     }
 

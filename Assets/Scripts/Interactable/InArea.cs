@@ -16,7 +16,7 @@ public class InArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.CompareTag("Player"))
+        if (!other.CompareTag("Player"))
             return;
 #if UNITY_EDITOR
         Debug.Log("Player In detected");
@@ -26,7 +26,7 @@ public class InArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.gameObject.CompareTag("Player"))
+        if (!other.CompareTag("Player"))
             return;
 #if UNITY_EDITOR
         Debug.Log("Player Out detected");

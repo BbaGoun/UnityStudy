@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Hammer
   icon: {fileID: 21300000, guid: 1c436558df0caa04eb65bf6f8d065918, type: 3}
-  audioClip: {fileID: 8300000, guid: c952c74dd0dfb5c44b632b0c5564c936, type: 3}
+  pickupSound: {fileID: 8300000, guid: c952c74dd0dfb5c44b632b0c5564c936, type: 3}
+  useSound: {fileID: 8300000, guid: 70e02441ad3cd8f488092b6a4933e446, type: 3}

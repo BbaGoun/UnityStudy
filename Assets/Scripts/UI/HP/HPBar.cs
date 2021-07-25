@@ -25,6 +25,11 @@ public class HPBar : MonoBehaviour
 
     public void SetHP()
     {
+        if (target == null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         transform.position = target.position;
         transform.LookAt(new Vector3(cam.position.x, cam.position.y, cam.position.z));
         hpBar.fillAmount = NormalizeHP();

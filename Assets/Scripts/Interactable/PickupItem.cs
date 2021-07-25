@@ -15,9 +15,9 @@ public class PickupItem : Interactable
         bool isPickuped = Inventory.Instance.Add(item);
         if (isPickuped)
         {
-            if (item.audioClip != null)
+            if (item.pickupSound != null)
             {
-                AudioManager.Instance.source.clip = item.audioClip;
+                AudioManager.Instance.source.clip = item.pickupSound;
                 AudioManager.Instance.source.Play();
             }
             Destroy(this.gameObject);

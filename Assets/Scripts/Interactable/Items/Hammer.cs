@@ -8,6 +8,11 @@ public class Hammer : Item
     public override void Use()
     {
         Player.Instance.combat.EquipWeapon();
+        if (useSound != null)
+        {
+            AudioManager.Instance.source.clip = useSound;
+            AudioManager.Instance.source.Play();
+        }
         RemoveFromInventory();
     }
 }

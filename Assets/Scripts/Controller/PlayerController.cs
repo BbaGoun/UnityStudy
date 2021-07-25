@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     const float walkSpeed = 1.25f;
     const float runSpeed = 2.25f;
     const float jumpForce = 200;
+    const float dodgeSpeed = 1.75f;
+    const float dodgeDuration = 0.5f;
     const float timeBeforeNextJump = 1.5f;
     const float Double_Tap_Time = 0.15f;
     public float stiffTime = 0.5f;
@@ -25,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public CharacterCombat combat;
 
     bool isHitted = false;
+    bool isDodge = false;
 
     Interactable nearInteractable;
 
@@ -41,6 +44,8 @@ public class PlayerController : MonoBehaviour
     void ControllPlayer()
     {
         if (isHitted)
+            return;
+        else if (isDodge)
             return;
 
         oldMovement = movement;
@@ -94,8 +99,32 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetButtonDown("Fire1"))
         {
+            if (IsPointerOverUIElement())
+                return;
             combat.Attack();
         }
+
+        if(Input.GetButtonDown("Dodge"))
+        {
+            if (IsPointerOverUIElement())
+                return;
+            StartCoroutine(Dodge());
+        }
+    }
+
+    IEnumerator Dodge()
+    {
+        playerAnim.Dodge();
+        isDodge = true;
+        float delta = 0.005f;
+        combat.OnInvincible();
+        for (float t = 0f; t < dodgeDuration; t += delta)
+        {
+            transform.Translate(movement * dodgeSpeed * Time.deltaTime, Space.World);
+            yield return new WaitForSeconds(delta);
+        }
+        isDodge = false;
+        combat.OffInvincible();
     }
 
     void LookMouseCursor()
@@ -124,5 +153,35 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(stiffTime);
         isHitted = false;
+    }
+
+    void Die()
+    {
+#if UNITY_EDITOR
+        Debug.Log("Player is dead");
+#endif
+        StartCoroutine(ReturnObject());
+    }
+
+    IEnumerator ReturnObject()
+    {
+        this.enabled = false;
+        yield return new WaitForSeconds(2f);
+        //사망 처리
+    }
+
+    ///Returns 'true' if we touched or hovering on Unity UI element.
+    public static bool IsPointerOverUIElement()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raycastResults);
+        foreach(RaycastResult raycastResult in raycastResults)
+        {
+            if (raycastResult.gameObject.layer == LayerMask.NameToLayer("UI"))
+                return true;
+        }
+        return false;
     }
 }

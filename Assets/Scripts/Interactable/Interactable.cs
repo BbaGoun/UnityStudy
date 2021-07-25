@@ -20,7 +20,7 @@ public class Interactable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.CompareTag("Player"))
+        if (!other.CompareTag("Player"))
             return;
         Player.Instance.controller.DetectInteractable(this);
         outline.enabled = true;
@@ -28,6 +28,8 @@ public class Interactable : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (!other.CompareTag("Player"))
+            return;
         Player.Instance.controller.DetectInteractable(null);
         outline.enabled = false;
     }

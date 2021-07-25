@@ -24,11 +24,15 @@ public class PoolingManager : MonoBehaviour
 
     [SerializeField]
     private GameObject enemyPrefab;
-    public int initCount = 5;
+    public int initCount = 3;
+    public int goal = 5;
+    int count = 0;
     public Transform spawnRegion;
     MeshCollider col;
     Vector3 center;
     Bounds bounds;
+
+    public GameObject obstacle;
 
     private void Awake()
     {
@@ -39,6 +43,15 @@ public class PoolingManager : MonoBehaviour
         Initialize(initCount);
     }
 
+    private void Start()
+    {
+        for(int i=0; i<initCount; i++)
+        {
+            Debug.Log("Pooling");
+            GetObject();
+        }
+    }
+
     GameObject GetObject()
     {
         if(enemyQueue.Count > 0)
@@ -46,7 +59,6 @@ public class PoolingManager : MonoBehaviour
             var obj = enemyQueue.Dequeue();
             obj.transform.position = GetRandomPosition();
             obj.SetActive(true);
-            obj.GetComponent<EnemyController>().enabled = true;
             return obj;
         }
         return null;
@@ -59,7 +71,7 @@ public class PoolingManager : MonoBehaviour
 
         float randX = Random.Range(center.x - bounds.extents.x, center.x + bounds.extents.x);
         float randZ = Random.Range(center.z - bounds.extents.z, center.z + bounds.extents.z);
-        Vector3 randomPosition = new Vector3(randX, 2f, randZ);
+        Vector3 randomPosition = new Vector3(randX, center.y, randZ);
         return randomPosition;
     }
 
@@ -67,6 +79,14 @@ public class PoolingManager : MonoBehaviour
     {
         obj.SetActive(false);
         enemyQueue.Enqueue(obj);
+        count++;
+        if (count < goal)
+            GetObject();
+        else
+        {
+            Destroy(obstacle);
+            Destroy(this.gameObject);
+        }
     }
 
     void Initialize(int initCount)

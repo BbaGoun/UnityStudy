@@ -48,6 +48,11 @@ public class PlayerAnimator : MonoBehaviour
         AudioManager.Instance.source.PlayDelayed(0.25f);
     }
 
+    public void Dodge()
+    {
+        anim.SetTrigger("Dodge");
+    }
+
     public void Hitted()
     {
         anim.SetTrigger("Hitted");
