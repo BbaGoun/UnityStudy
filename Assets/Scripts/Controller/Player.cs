@@ -26,9 +26,6 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        stat = GetComponent<CharacterStat>();
-        combat = GetComponent<CharacterCombat>();
-        controller = GetComponent<PlayerController>();
     }
 
     //private void OnEnable()

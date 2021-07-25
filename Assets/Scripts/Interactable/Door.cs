@@ -5,7 +5,6 @@ using UnityEngine;
 public class Door : Interactable
 {
     bool isClosed = true;
-    Transform a;
     Vector3 closedPosition = new Vector3(5.3f, 0, 0);
     Vector3 openedPosition = new Vector3(4.2f, 0f, 1f);
 

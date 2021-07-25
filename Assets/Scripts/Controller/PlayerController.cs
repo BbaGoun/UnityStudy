@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    public float movementSpeed = 1.25f;
+    float movementSpeed = 1.25f;
     const float walkSpeed = 1.25f;
     const float runSpeed = 2.25f;
     const float jumpForce = 200;
     const float timeBeforeNextJump = 1.5f;
     const float Double_Tap_Time = 0.15f;
+    public float stiffTime = 0.5f;
    
     float canJump = 0f;
     float lastMoveTime = 0f;
@@ -17,18 +19,18 @@ public class PlayerController : MonoBehaviour
     Vector3 movement = Vector3.zero;
     Vector3 oldMovement = Vector3.zero;
 
-    Rigidbody rb;
+    public Rigidbody rb;
     public Camera mainCamera;
-    PlayerAnimator playerAnim;
-    CharacterCombat combat;
+    public PlayerAnimator playerAnim;
+    public CharacterCombat combat;
 
-    public Interactable nearInteractable;
-    
-    void Awake()
+    bool isHitted = false;
+
+    Interactable nearInteractable;
+
+    private void OnEnable()
     {
-        rb = GetComponent<Rigidbody>();
-        playerAnim = GetComponent<PlayerAnimator>();
-        combat = GetComponent<CharacterCombat>();
+        combat.OnHitted += OnHitted;
     }
 
     void Update()
@@ -38,6 +40,9 @@ public class PlayerController : MonoBehaviour
 
     void ControllPlayer()
     {
+        if (isHitted)
+            return;
+
         oldMovement = movement;
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
@@ -102,5 +107,22 @@ public class PlayerController : MonoBehaviour
             Vector3 mouseDir = new Vector3(hitResult.point.x, transform.position.y, hitResult.point.z) - transform.position;
             transform.forward = mouseDir;
         }
+    }
+
+    public void DetectInteractable(Interactable it)
+    {
+        nearInteractable = it;
+    }
+
+    public void OnHitted()
+    {
+        isHitted = true;
+        StartCoroutine(Delay(stiffTime));
+    }
+
+    IEnumerator Delay(float stiffTime)
+    {
+        yield return new WaitForSeconds(stiffTime);
+        isHitted = false;
     }
 }

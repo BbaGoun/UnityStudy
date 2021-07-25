@@ -22,13 +22,13 @@ public class Interactable : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Player"))
             return;
-        Player.Instance.controller.nearInteractable = this;
+        Player.Instance.controller.DetectInteractable(this);
         outline.enabled = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Player.Instance.controller.nearInteractable = null;
+        Player.Instance.controller.DetectInteractable(null);
         outline.enabled = false;
     }
 

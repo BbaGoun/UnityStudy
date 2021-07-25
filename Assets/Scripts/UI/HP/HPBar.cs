@@ -34,5 +34,4 @@ public class HPBar : MonoBehaviour
     {
         return Mathf.Clamp01(stat.currentHP / (float)stat.maxHP);
     }
-
 }

@@ -5,13 +5,9 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     public Animator anim;
-    CharacterCombat combat;
-
-    private void Awake()
-    {
-        anim = GetComponentInChildren<Animator>();
-        combat = GetComponent<CharacterCombat>();
-    }
+    public CharacterCombat combat;
+    public AudioClip jumpSound;
+    public AudioClip swingSound;
 
     private void OnEnable()
     {
@@ -41,11 +37,15 @@ public class PlayerAnimator : MonoBehaviour
     public void Jump()
     {
         anim.SetTrigger("Jump");
+        AudioManager.Instance.source.clip = jumpSound;
+        AudioManager.Instance.source.Play();
     }
 
     public void Swing()
     {
         anim.SetTrigger("Swing");
+        AudioManager.Instance.source.clip = swingSound;
+        AudioManager.Instance.source.PlayDelayed(0.25f);
     }
 
     public void Hitted()

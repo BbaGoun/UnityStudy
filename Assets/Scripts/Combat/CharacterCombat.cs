@@ -5,37 +5,46 @@ using System;
 
 public class CharacterCombat : MonoBehaviour
 {
-    // CharacterAnimator에서 함수 추가.
+    // Animator에서 함수 추가.
     public event Action OnAttack;
-    public event Action OnHitted;
     public event Action OnDie;
-    // Enemy에서 함수 추가.
-    public event Action OnHPZero;
+    // Animator and Controller
+    public event Action OnHitted;
 
     public enum Character { PLAYER, ENEMY, ELSE };
     public Character character;
 
-    const float cooltime = 2f;
-    public float attackCooltime = 0f;
+    const float attackCooltime = 2f;
+    float lastAttackTime;
 
-    CharacterStat myStat;
+    public CharacterStat myStat;
     public Transform hPBarTf;
     public Collider hitBox;
+    public GameObject Weapon;
+
+    bool equipWeapon = false;
+
+    public void EquipWeapon()
+    {
+        equipWeapon = true;
+        Weapon.SetActive(true);
+    }
 
     private void Awake()
     {
-        myStat = GetComponent<CharacterStat>();
         HPBarManager.Instance.Create(hPBarTf, myStat);
     }
 
     public void Attack()
     {
-        if (attackCooltime <= 0f)
+        if (!equipWeapon)
+            return;
+        if (Time.time >= lastAttackTime + attackCooltime)
         {
             OnAttack?.Invoke();
             StartCoroutine(OnHitBox(0.25f, 0.6f));
 
-            attackCooltime = cooltime;
+            lastAttackTime = Time.time;
         }
     }
 
@@ -43,7 +52,7 @@ public class CharacterCombat : MonoBehaviour
     {
         CharacterCombat enemyCombat = other.gameObject.GetComponent<CharacterCombat>();
         if (enemyCombat != null)
-            StartCoroutine(GiveDamage(enemyCombat, 0.5f));
+            GiveDamage(enemyCombat);
     }
 
     IEnumerator OnHitBox(float predelay, float duration)
@@ -54,9 +63,8 @@ public class CharacterCombat : MonoBehaviour
         hitBox.enabled = false;
     }
 
-    IEnumerator GiveDamage(CharacterCombat enemyCombat, float delay)
+    void GiveDamage(CharacterCombat enemyCombat)
     {
-        yield return new WaitForSeconds(delay);
         if (enemyCombat != null)
             enemyCombat.Hitted(UnityEngine.Random.Range(myStat.minPower, myStat.maxPower));
     }
@@ -84,7 +92,9 @@ public class CharacterCombat : MonoBehaviour
             case Character.ELSE:
                 break;
         }
-        OnHPZero?.Invoke();
+#if UNITY_EDITOR
+        Debug.Log("Player Die!");
+#endif
         OnDie?.Invoke();
     }
 
@@ -100,10 +110,5 @@ public class CharacterCombat : MonoBehaviour
         EnemyController enemyController = GetComponent<EnemyController>();
         if (enemyController != null)
             enemyController.enabled = false;
-    }
-
-    private void Update()
-    {
-        attackCooltime -= Time.deltaTime;
     }
 }

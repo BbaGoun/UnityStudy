@@ -26,19 +26,17 @@ public class PoolingManager : MonoBehaviour
     private GameObject enemyPrefab;
     public int initCount = 5;
     public Transform spawnRegion;
+    MeshCollider col;
+    Vector3 center;
+    Bounds bounds;
 
     private void Awake()
     {
         Instance = this;
+        col = spawnRegion.GetComponent<MeshCollider>();
+        center = spawnRegion.position;
+        bounds = col.bounds;
         Initialize(initCount);
-    }
-
-    private void Update()
-    {
-        for(int i=0; i<initCount; i++)
-        {
-            GetObject();
-        }
     }
 
     GameObject GetObject()
@@ -46,7 +44,6 @@ public class PoolingManager : MonoBehaviour
         if(enemyQueue.Count > 0)
         {
             var obj = enemyQueue.Dequeue();
-            obj.transform.SetParent(null);
             obj.transform.position = GetRandomPosition();
             obj.SetActive(true);
             obj.GetComponent<EnemyController>().enabled = true;
@@ -60,12 +57,8 @@ public class PoolingManager : MonoBehaviour
         if (spawnRegion == null)
             return Vector3.zero;
 
-        MeshCollider col = spawnRegion.GetComponent<MeshCollider>();
-        Vector3 center = spawnRegion.position;
-        var bounds = col.bounds;
-
-        float randX = Random.Range(center.x - bounds.extents.x * 0.7f, center.x + bounds.extents.x * 0.7f);
-        float randZ = Random.Range(center.z - bounds.extents.z * 0.7f, center.z + bounds.extents.z * 0.7f);
+        float randX = Random.Range(center.x - bounds.extents.x, center.x + bounds.extents.x);
+        float randZ = Random.Range(center.z - bounds.extents.z, center.z + bounds.extents.z);
         Vector3 randomPosition = new Vector3(randX, 2f, randZ);
         return randomPosition;
     }
@@ -73,7 +66,6 @@ public class PoolingManager : MonoBehaviour
     public void ReturnObject(GameObject obj)
     {
         obj.SetActive(false);
-        obj.transform.SetParent(transform);
         enemyQueue.Enqueue(obj);
     }
 

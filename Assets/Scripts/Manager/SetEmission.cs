@@ -4,40 +4,28 @@ using UnityEngine;
 
 public class SetEmission : MonoBehaviour
 {
-    public SkinnedMeshRenderer skinMeshRenderer;
+    public MeshRenderer[] meshRenderers;
     Material material;
-
-    bool isHitted = false;
-
-    public float duration = 1.0f;
-    float timeLeft = 0f;
-
-    private void Start() 
-    {
-        material = skinMeshRenderer.material;
-    }
+    public float delay = 0.5f;
 
     public void FX()
     {
+#if UNITY_EDITOR
         Debug.Log("FX time");
-        isHitted = true;
-        material.EnableKeyword("_EMISSION");
+#endif
+        foreach(MeshRenderer mr in meshRenderers)
+        {
+            mr.material.EnableKeyword("_EMISSION");
+        }
+        StartCoroutine(FXOffDelay(delay));
     } 
 
-    private void Update() 
+    IEnumerator FXOffDelay(float delay)
     {
-        if(isHitted)
+        yield return new WaitForSeconds(delay);
+        foreach (MeshRenderer mr in meshRenderers)
         {
-            if(timeLeft < duration)
-            {
-                timeLeft += Time.deltaTime;
-            }
-            else
-            {
-                material.DisableKeyword("_EMISSION");
-                isHitted = false;
-                timeLeft = 0f;
-            }
+            mr.material.DisableKeyword("_EMISSION");
         }
     }
 }

@@ -11,7 +11,7 @@ public class CrossHair : MonoBehaviour
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitResult;
-        if (Physics.Raycast(ray, out hitResult, 100f))
+        if (Physics.Raycast(ray, out hitResult, 100f, ~layerMask))
         {
             transform.position = new Vector3(hitResult.point.x, hitResult.point.y, hitResult.point.z);
         }

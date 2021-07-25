@@ -14,7 +14,7 @@ public class TreasureChest : Interactable
             return;
         if (!Inventory.Instance.IsContain(neededItem))
             return;
-        Player.Instance.controller.nearInteractable = this;
+        Player.Instance.controller.DetectInteractable(this);
         outline.enabled = true;
     }
 

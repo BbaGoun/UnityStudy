@@ -5,7 +5,7 @@ using UnityEngine;
 public class InventoryUI : MonoBehaviour
 {
     Inventory inventory;
-    InventorySlot[] slots;
+    public InventorySlot[] slots;
     public Transform slotParent;
 
     public GameObject inventoryHead;
@@ -22,8 +22,6 @@ public class InventoryUI : MonoBehaviour
     {
         inventory = Inventory.Instance;
         inventory.onItemChanged += UpdateUI;
-
-        slots = slotParent.GetComponentsInChildren<InventorySlot>();
     }
 
     public void InventoryToggle()

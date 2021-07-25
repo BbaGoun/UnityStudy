@@ -6,16 +6,16 @@ public class Enemy : Interactable
 {
     CharacterCombat combat;
 
-    private void OnEnable()
-    {
-        combat = GetComponent<CharacterCombat>();
-        combat.OnHPZero += Die;
-    }
+    //private void OnEnable()
+    //{
+    //    combat = GetComponent<CharacterCombat>();
+    //    combat.OnHPZero += Die;
+    //}
 
-    private void OnDisable()
-    {
-        combat.OnHPZero -= Die;
-    }
+    //private void OnDisable()
+    //{
+    //    combat.OnHPZero -= Die;
+    //}
 
     public override void interact()
     {

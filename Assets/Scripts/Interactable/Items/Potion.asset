@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f948e15ef4b4f4e9394a4db16d49fb, type: 3}
   m_Name: Potion
   m_EditorClassIdentifier: 
-  _name: RedPotion
-  icon: {fileID: 21300000, guid: acc521dd13d49c74f9795aa70a2b6abf, type: 3}
+  _name: HeartPotion
+  icon: {fileID: 21300000, guid: 47fbbf7a9c438ed4ea370ca0e59905ff, type: 3}
   audioClip: {fileID: 8300000, guid: c952c74dd0dfb5c44b632b0c5564c936, type: 3}
   heal: 10
