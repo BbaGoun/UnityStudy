@@ -9,7 +9,14 @@ public class Option : MonoBehaviour
     public Slider bgmSlider;
     public Slider fxSlider;
     public AudioSource bgm;
-    public AudioSource fx;
+    AudioSource playerFx;
+    AudioSource enemyFx;
+
+    private void Awake()
+    {
+        playerFx = AudioManager.Instance.source;
+        enemyFx = EnemyAudioManager.Instance.source;
+    }
 
     private void Update()
     {
@@ -36,11 +43,17 @@ public class Option : MonoBehaviour
 
     void UpdateFx()
     {
-        fx.volume = fxSlider.value;
-        if (fx.volume <= 0)
-            fx.enabled = false;
+        playerFx.volume = fxSlider.value;
+        if (playerFx.volume <= 0)
+            playerFx.enabled = false;
         else
-            fx.enabled = true;
+            playerFx.enabled = true;
+
+        enemyFx.volume = fxSlider.value;
+        if (enemyFx.volume <= 0)
+            enemyFx.enabled = false;
+        else
+            enemyFx.enabled = true;
     }
     public void OptionToggle()
     {

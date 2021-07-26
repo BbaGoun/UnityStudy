@@ -51,6 +51,8 @@ public class PlayerAnimator : MonoBehaviour
     public void Dodge()
     {
         anim.SetTrigger("Dodge");
+        AudioManager.Instance.source.clip = jumpSound;
+        AudioManager.Instance.source.Play();
     }
 
     public void Hitted()

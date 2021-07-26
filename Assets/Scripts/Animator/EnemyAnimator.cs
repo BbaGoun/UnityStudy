@@ -28,8 +28,8 @@ public class EnemyAnimator : MonoBehaviour
     public void Attack()
     {
         anim.SetTrigger("Attack");
-        AudioManager.Instance.source.clip = attackSound;
-        AudioManager.Instance.source.PlayDelayed(0.25f);
+        EnemyAudioManager.Instance.source.clip = attackSound;
+        EnemyAudioManager.Instance.source.PlayDelayed(0.25f);
     }
 
     public void Hitted()

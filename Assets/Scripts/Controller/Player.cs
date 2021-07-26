@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public CharacterCombat combat;
     public PlayerController controller;
 
+    public Vector3 spawnPoint = new Vector3(3.5f, 0.5f, -5.6f);
     private void Awake()
     {
         Instance = this;

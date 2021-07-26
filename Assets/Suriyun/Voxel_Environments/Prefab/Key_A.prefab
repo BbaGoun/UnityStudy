@@ -81,7 +81,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInteracted: 0
   delay: 1
-  outline: {fileID: 0}
+  outline: {fileID: 1886752630}
   item: {fileID: 11400000, guid: 5b8c40e0b7195a04fa91214c75e3abf6, type: 2}
 --- !u!114 &1886752630
 MonoBehaviour:

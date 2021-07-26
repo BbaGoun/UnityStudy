@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     const float walkSpeed = 1.25f;
     const float runSpeed = 2.25f;
     const float jumpForce = 200;
-    const float dodgeSpeed = 2.5f;
+    const float dodgeSpeed = 3f;
     const float dodgeDuration = 0.5f;
     const float timeBeforeNextJump = 1.5f;
     const float Double_Tap_Time = 0.15f;
@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
     {
         playerAnim.Dodge();
         isDodge = true;
-        float delta = Time.deltaTime;
+        float delta = 0.01f;
         combat.OnInvincible();
         for (float t = 0f; t < dodgeDuration; t += delta)
         {
@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
         this.enabled = false;
         yield return new WaitForSeconds(3f);
         this.enabled = true;
-        this.transform.position = new Vector3(3.5f, 0.5f, -5.6f);
+        this.transform.position = Player.Instance.spawnPoint;
         Player.Instance.stat.Respawn();
         playerAnim.Revive();
     }

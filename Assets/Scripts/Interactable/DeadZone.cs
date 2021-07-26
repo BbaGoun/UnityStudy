@@ -6,6 +6,6 @@ public class DeadZone : InArea
 {
     public override void OnInArea()
     {
-        Player.Instance.combat.Die();
+        Player.Instance.gameObject.transform.position = Player.Instance.spawnPoint;
     }
 }

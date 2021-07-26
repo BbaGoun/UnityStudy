@@ -5,13 +5,13 @@ using UnityEngine;
 public class Trophy : Interactable
 {
     public AudioClip endingSong;
-    public AudioSource fx;
+    AudioSource fx;
     public AudioSource bgm;
     public GameObject message;
 
     private void OnEnable()
     {
-        fx = AudioManager.Instance.source;
+        fx = EnemyAudioManager.Instance.source;
     }
 
     public override void interact()
