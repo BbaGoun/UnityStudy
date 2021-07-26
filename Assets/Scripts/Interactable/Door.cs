@@ -7,10 +7,23 @@ public class Door : Interactable
     bool isClosed = true;
     Vector3 closedPosition = new Vector3(5.3f, 0, 0);
     Vector3 openedPosition = new Vector3(4.2f, 0f, 1f);
+    public AudioClip fx;
+
+    AudioSource source;
+
+    private void OnEnable()
+    {
+        source = AudioManager.Instance.source;
+    }
 
     public override void interact()
     {
         ToggleDoor();
+        if(fx != null)
+        {
+            source.clip = fx;
+            source.Play();
+        }
     }
 
     void ToggleDoor()

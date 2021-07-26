@@ -56,7 +56,7 @@ public class PoolingManager : MonoBehaviour
     {
         if(enemyQueue.Count > 0)
         {
-            var obj = enemyQueue.Dequeue();
+            GameObject obj = enemyQueue.Dequeue();
             obj.transform.position = GetRandomPosition();
             obj.SetActive(true);
             return obj;
@@ -71,7 +71,7 @@ public class PoolingManager : MonoBehaviour
 
         float randX = Random.Range(center.x - bounds.extents.x, center.x + bounds.extents.x);
         float randZ = Random.Range(center.z - bounds.extents.z, center.z + bounds.extents.z);
-        Vector3 randomPosition = new Vector3(randX, center.y, randZ);
+        Vector3 randomPosition = new Vector3(randX, 0.2f, randZ);
         return randomPosition;
     }
 
@@ -99,7 +99,7 @@ public class PoolingManager : MonoBehaviour
 
     GameObject CreateNewEnemy()
     {
-        var newEnemy = Instantiate(enemyPrefab);
+        GameObject newEnemy = Instantiate(enemyPrefab) as GameObject;
         newEnemy.SetActive(false);
         newEnemy.transform.SetParent(transform);
 

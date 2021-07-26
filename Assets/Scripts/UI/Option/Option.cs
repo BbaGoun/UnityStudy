@@ -28,11 +28,19 @@ public class Option : MonoBehaviour
     void UpdateBgm()
     {
         bgm.volume = bgmSlider.value;
+        if (bgm.volume <= 0)
+            bgm.enabled = false;
+        else
+            bgm.enabled = true;
     }
 
     void UpdateFx()
     {
         fx.volume = fxSlider.value;
+        if (fx.volume <= 0)
+            fx.enabled = false;
+        else
+            fx.enabled = true;
     }
     public void OptionToggle()
     {

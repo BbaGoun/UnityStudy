@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     const float walkSpeed = 1.25f;
     const float runSpeed = 2.25f;
     const float jumpForce = 200;
-    const float dodgeSpeed = 1.75f;
+    const float dodgeSpeed = 2.5f;
     const float dodgeDuration = 0.5f;
     const float timeBeforeNextJump = 1.5f;
     const float Double_Tap_Time = 0.15f;
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         combat.OnHitted += OnHitted;
+        combat.OnDie += OnDie;
     }
 
     void Update()
@@ -116,11 +117,11 @@ public class PlayerController : MonoBehaviour
     {
         playerAnim.Dodge();
         isDodge = true;
-        float delta = 0.005f;
+        float delta = Time.deltaTime;
         combat.OnInvincible();
         for (float t = 0f; t < dodgeDuration; t += delta)
         {
-            transform.Translate(movement * dodgeSpeed * Time.deltaTime, Space.World);
+            transform.Translate(movement * dodgeSpeed * delta, Space.World);
             yield return new WaitForSeconds(delta);
         }
         isDodge = false;
@@ -155,7 +156,7 @@ public class PlayerController : MonoBehaviour
         isHitted = false;
     }
 
-    void Die()
+    void OnDie()
     {
 #if UNITY_EDITOR
         Debug.Log("Player is dead");
@@ -166,8 +167,11 @@ public class PlayerController : MonoBehaviour
     IEnumerator ReturnObject()
     {
         this.enabled = false;
-        yield return new WaitForSeconds(2f);
-        //사망 처리
+        yield return new WaitForSeconds(3f);
+        this.enabled = true;
+        this.transform.position = new Vector3(3.5f, 0.5f, -5.6f);
+        Player.Instance.stat.Respawn();
+        playerAnim.Revive();
     }
 
     ///Returns 'true' if we touched or hovering on Unity UI element.

@@ -12,6 +12,11 @@ public class CharacterStat : MonoBehaviour
 
     private void OnEnable()
     {
+        Respawn();
+    }
+
+    public void Respawn()
+    {
         currentHP = maxHP;
     }
 

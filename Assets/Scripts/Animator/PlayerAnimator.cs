@@ -62,4 +62,10 @@ public class PlayerAnimator : MonoBehaviour
     {
         anim.SetBool("Die", true);
     }
+
+    public void Revive()
+    {
+        anim.SetBool("Die", false);
+        anim.SetTrigger("Revive");
+    }
 }

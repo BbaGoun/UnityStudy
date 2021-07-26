@@ -18,10 +18,12 @@ public class EnemyController : MonoBehaviour
     public float stiffTime;
     public float attackTime;
 
+    bool isHitted = false;
+
     private void OnEnable()
     {
         combat.OnHitted += OnHitted;
-        combat.OnDie += Die;
+        combat.OnDie += OnDie;
     }
 
     private void Start()
@@ -33,6 +35,9 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        if (isHitted)
+            return;
+
         float sqrDistance = (target.position - transform.position).sqrMagnitude;
         if (sqrDistance < sqrDetectionSize)
         {
@@ -55,6 +60,7 @@ public class EnemyController : MonoBehaviour
     void OnHitted()
     {
         agent.isStopped = true;
+        isHitted = true;
         StartCoroutine(Delay(stiffTime));
     }
 
@@ -62,9 +68,10 @@ public class EnemyController : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         agent.isStopped = false;
+        isHitted = false;
     }
 
-    void Die()
+    void OnDie()
     {
 #if UNITY_EDITOR
         Debug.Log("Enemy is dead");
