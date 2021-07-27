@@ -1,4 +1,5 @@
-## 사용한 랜더 파이프라인 : URP, Build한 게임은 Voxel Game 폴더 안에 있습니다.
+## 사용한 랜더 파이프라인 : URP
+## Build한 게임은 Voxel Game 폴더 안에 있습니다.
 
 
 # 조작법
